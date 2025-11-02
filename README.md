@@ -9,18 +9,18 @@ A modern web-based file explorer inspired by **Windows Explorer**, built using:
 
 ## ⚙️ Requirements
 
-[Bun](https://bun.sh/) | v1.1+ | [bun.sh](https://bun.sh/) |
-[Node.js](https://nodejs.org/) | v18+ | [nodejs.org](https://nodejs.org/) |
-[PostgreSQL](https://www.postgresql.org/) | v14+ | [postgresql.org](https://www.postgresql.org/) |
+- [Bun](https://bun.sh/) | v1.1+ | [bun.sh](https://bun.sh/) |
+- [Node.js](https://nodejs.org/) | v18+ | [nodejs.org](https://nodejs.org/) |
+- [PostgreSQL](https://www.postgresql.org/) | v14+ | [postgresql.org](https://www.postgresql.org/) |
 
 ## 🧩 Database Setup
 
-createdb directory_tree_db
+- createdb directory_tree_db
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS ltree;
+- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+- CREATE EXTENSION IF NOT EXISTS ltree;
 
-CREATE TABLE items (
+- CREATE TABLE items (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT NOT NULL,
   parent_id UUID,
@@ -30,11 +30,11 @@ CREATE TABLE items (
   depth INT DEFAULT 0
 );
 
--- Root
+- Root
 INSERT INTO items (name, path, depth, is_folder)
 VALUES ('Root', uuid_generate_v4()::text, 0, TRUE);
 
--- Documents
+- Documents
 WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
 INSERT INTO items (name, parent_id, is_folder, path, depth)
 SELECT
@@ -45,7 +45,7 @@ SELECT
   root.depth + 1
 FROM root;
 
--- Pictures
+- Pictures
 WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
 INSERT INTO items (name, parent_id, is_folder, path, depth)
 SELECT
@@ -56,7 +56,7 @@ SELECT
   root.depth + 1
 FROM root;
 
--- File sample in Pictures
+- File sample in Pictures
 WITH pictures AS (SELECT id, path, depth FROM items WHERE name='Pictures')
 INSERT INTO items (name, parent_id, is_folder, extension, path, depth)
 SELECT
@@ -69,19 +69,19 @@ SELECT
 FROM pictures;
 
 ## 🧠 Backend Setup (Elysia + Bun)
-cd backend
-bun install
-bun run dev
+- cd backend
+- bun install
+- bun run dev
 
 ## 🌿 Frontend Setup (Vue 3)
-cd frontend
-bun install
-bun run dev
+- cd frontend
+- bun install
+- bun run dev
 
 ## 🔌 API Endpoints
 Method	Endpoint	           Description
-GET	    /api/v1/folders	     Get all root folders
-GET	    /api/v1/folders/:id	 Get children of a folder
+- GET	    /api/v1/folders	     Get all root folders
+- GET	    /api/v1/folders/:id	 Get children of a folder
 
 
 
