@@ -15,12 +15,15 @@ A modern web-based file explorer inspired by **Windows Explorer**, built using:
 
 ## 🧩 Database Setup
 
-- createdb directory_tree_db
+-- 1️⃣ Create Database
+createdb directory_tree_db;
 
-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-- CREATE EXTENSION IF NOT EXISTS ltree;
+-- 2️⃣ Activate Extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS ltree;
 
-- CREATE TABLE items (
+-- 3️⃣ Create Table
+CREATE TABLE items (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT NOT NULL,
   parent_id UUID,
@@ -30,15 +33,11 @@ A modern web-based file explorer inspired by **Windows Explorer**, built using:
   depth INT DEFAULT 0
 );
 
-- Root
-
-
+-- Root
 INSERT INTO items (name, path, depth, is_folder)
 VALUES ('Root', uuid_generate_v4()::text, 0, TRUE);
 
-- Documents
-
-
+-- Documents
 WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
 INSERT INTO items (name, parent_id, is_folder, path, depth)
 SELECT
@@ -49,9 +48,7 @@ SELECT
   root.depth + 1
 FROM root;
 
-- Pictures
-
-
+-- Pictures
 WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
 INSERT INTO items (name, parent_id, is_folder, path, depth)
 SELECT
@@ -62,9 +59,7 @@ SELECT
   root.depth + 1
 FROM root;
 
-- File sample in Pictures
-
-
+-- File sample in Pictures
 WITH pictures AS (SELECT id, path, depth FROM items WHERE name='Pictures')
 INSERT INTO items (name, parent_id, is_folder, extension, path, depth)
 SELECT
