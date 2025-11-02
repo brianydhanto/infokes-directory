@@ -15,14 +15,14 @@ A modern web-based file explorer inspired by **Windows Explorer**, built using:
 
 ## 🧩 Database Setup
 
--- 1️⃣ Create Database
+1️⃣ Create Database
 createdb directory_tree_db;
 
--- 2️⃣ Activate Extension
+2️⃣ Activate Extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS ltree;
 
--- 3️⃣ Create Table
+3️⃣ Create Table
 CREATE TABLE items (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT NOT NULL,
@@ -34,11 +34,11 @@ CREATE TABLE items (
 );
 
 -- Root
-INSERT INTO items (name, path, depth, is_folder)
+- INSERT INTO items (name, path, depth, is_folder)
 VALUES ('Root', uuid_generate_v4()::text, 0, TRUE);
 
 -- Documents
-WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
+- WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
 INSERT INTO items (name, parent_id, is_folder, path, depth)
 SELECT
   'Documents',
@@ -49,7 +49,7 @@ SELECT
 FROM root;
 
 -- Pictures
-WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
+- WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
 INSERT INTO items (name, parent_id, is_folder, path, depth)
 SELECT
   'Pictures',
@@ -60,7 +60,7 @@ SELECT
 FROM root;
 
 -- File sample in Pictures
-WITH pictures AS (SELECT id, path, depth FROM items WHERE name='Pictures')
+- WITH pictures AS (SELECT id, path, depth FROM items WHERE name='Pictures')
 INSERT INTO items (name, parent_id, is_folder, extension, path, depth)
 SELECT
   'holiday.png',
