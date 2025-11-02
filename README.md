@@ -31,10 +31,14 @@ A modern web-based file explorer inspired by **Windows Explorer**, built using:
 );
 
 - Root
+
+
 INSERT INTO items (name, path, depth, is_folder)
 VALUES ('Root', uuid_generate_v4()::text, 0, TRUE);
 
 - Documents
+
+
 WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
 INSERT INTO items (name, parent_id, is_folder, path, depth)
 SELECT
@@ -46,6 +50,8 @@ SELECT
 FROM root;
 
 - Pictures
+
+
 WITH root AS (SELECT id, path, depth FROM items WHERE name='Root')
 INSERT INTO items (name, parent_id, is_folder, path, depth)
 SELECT
@@ -57,6 +63,8 @@ SELECT
 FROM root;
 
 - File sample in Pictures
+
+
 WITH pictures AS (SELECT id, path, depth FROM items WHERE name='Pictures')
 INSERT INTO items (name, parent_id, is_folder, extension, path, depth)
 SELECT
